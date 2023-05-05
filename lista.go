@@ -95,7 +95,7 @@ type Coche struct {
 }
 
 func (c *Coche)Random(){
-	c.año=rand.Int()%100
+	c.año=1900+rand.Int()%123
 	c.color=RandStringRunes()
 	c.marca=RandStringRunes()
 	c.modelo=RandStringRunes()
@@ -111,7 +111,7 @@ func RandStringRunes() string {
     return string(b)
 }
 
-func main() {
+func not_main() {
 	disponiblesVacio:=new(Coche)
 	compradosVacio:=new(Coche)
 	vendidosVacio:=new(Coche)
@@ -152,12 +152,12 @@ modelo string, disponibles* List, comprados* List) error {
 	return nil
 }
 
-func ComprarCoche(nuevo Coche, disponibles* List, comprados* List) error {
+func ComprarCoche(nuevo* Coche, disponibles* List, comprados* List) error {
 	ultimo:=disponibles.Ultimo()
 	if ultimo==nil{
 		return errors.New("No hay espacio disponible")
 	}
-	ultimo.coche=nuevo
+	ultimo.coche=*nuevo
 	comprados.InsertarNodo(ultimo)
 	return nil
 }
