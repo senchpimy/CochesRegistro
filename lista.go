@@ -67,7 +67,7 @@ func (l *List)Obtener(index int) *Node {
 	curr=curr.Next
 	i:=0
 	for curr.Next!=nil {
-		if index==i+1{
+		if index==i{
 			break
 		}
 		prev = curr
@@ -75,6 +75,7 @@ func (l *List)Obtener(index int) *Node {
 		i++
 	}
 	prev.Next=curr.Next
+	curr.Next=nil
 	return curr
 }
 
