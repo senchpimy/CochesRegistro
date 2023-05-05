@@ -123,33 +123,52 @@ func main() {
 	botonAñadir:=widget.NewButton("Comprar Coche",func (){})
 	botonRandom:=widget.NewButton("Comprar Coche al azar",func (){})
 	botonAñadir=widget.NewButton("Comprar Coche",func (){
-				añoInt,err:=strconv.Atoi(año.Text);
-				if err!=nil{return}
-				err1:=Comprar(añoInt,color.Text,marca.Text,modelo.Text,&disponibles,&comprados)
-				if err1!=nil{
-					error.SetText(err1.Error())
-				}
-				marca = widget.NewEntry()
-				marca.SetPlaceHolder("Ingrese la Marca")
-				modelo = widget.NewEntry()
-				modelo.SetPlaceHolder("Ingrese el modelo")
-				año = widget.NewEntry()
-				año.SetPlaceHolder("Ingrese el año")
-				color = widget.NewEntry()
-				color.SetPlaceHolder("Ingrese la color")
-				ingresoDatos=container.New(layout.NewVBoxLayout(),
-					marca,modelo,color,año,botonAñadir,botonRandom)
-				compradosUi:=ElementosComprados(&comprados)
-				compradosScroll:=container.NewVScroll(compradosUi)
-				compradosScroll.SetMinSize(fyne.NewSize(500, 300))
-				zonaPrincipal.RemoveAll()
-				zonaPrincipal.AddObject(ingresoDatos)
-				zonaPrincipal.AddObject(compradosScroll)
+		añoInt,err:=strconv.Atoi(año.Text);
+		if err!=nil{return}
+		err1:=Comprar(añoInt,color.Text,marca.Text,modelo.Text,&disponibles,&comprados)
+		if err1!=nil{
+			error.SetText(err1.Error())
+		}
+		marca = widget.NewEntry()
+		marca.SetPlaceHolder("Ingrese la Marca")
+		modelo = widget.NewEntry()
+		modelo.SetPlaceHolder("Ingrese el modelo")
+		año = widget.NewEntry()
+		año.SetPlaceHolder("Ingrese el año")
+		color = widget.NewEntry()
+		color.SetPlaceHolder("Ingrese la color")
+		ingresoDatos=container.New(layout.NewVBoxLayout(),
+			marca,modelo,color,año,botonAñadir,botonRandom)
+		compradosUi:=ElementosComprados(&comprados)
+		compradosScroll:=container.NewVScroll(compradosUi)
+		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
+		zonaPrincipal.RemoveAll()
+		zonaPrincipal.AddObject(ingresoDatos)
+		zonaPrincipal.AddObject(compradosScroll)
 	})
 	botonRandom=widget.NewButton("Comprar Coche al azar",func (){
 		coche:=new(Coche)
 		coche.Random()
-		ComprarCoche(coche,&disponibles,&comprados)
+		err1:=ComprarCoche(coche,&disponibles,&comprados)
+		if err1!=nil{
+			error.SetText(err1.Error())
+		}
+		marca = widget.NewEntry()
+		marca.SetPlaceHolder("Ingrese la Marca")
+		modelo = widget.NewEntry()
+		modelo.SetPlaceHolder("Ingrese el modelo")
+		año = widget.NewEntry()
+		año.SetPlaceHolder("Ingrese el año")
+		color = widget.NewEntry()
+		color.SetPlaceHolder("Ingrese la color")
+		ingresoDatos=container.New(layout.NewVBoxLayout(),
+			marca,modelo,color,año,botonAñadir,botonRandom)
+		compradosUi:=ElementosComprados(&comprados)
+		compradosScroll:=container.NewVScroll(compradosUi)
+		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
+		zonaPrincipal.RemoveAll()
+		zonaPrincipal.AddObject(ingresoDatos)
+		zonaPrincipal.AddObject(compradosScroll)
 	})
 	ingresoDatos=container.New(layout.NewVBoxLayout(),
 			marca,modelo,color,año,botonAñadir,botonRandom)
