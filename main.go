@@ -90,7 +90,7 @@ func main() {
 	Show(&vendidos)
 
 
-	for i:=0;i<100;i++{
+	for i:=0;i<2;i++{
 		cochevacio:=new(Coche)
 		cochevacio.año=i+1
 		disponibles.InsertarCoche(*cochevacio)
@@ -100,14 +100,18 @@ func main() {
 	w := a.NewWindow("Venta de Autos")
 
 	hello := widget.NewLabel("Venta de Autos")
+	error:=widget.NewLabel("")
+	zonaPrincipal:=container.NewVBox()
 	
 	//Area de Disponibles
 	disponiblesUi:=ElementosDisponibles(&disponibles)
 	disponiblesScroll:=container.NewVScroll(disponiblesUi)
 	disponiblesScroll.SetMinSize(fyne.NewSize(500, 500))
-	zonaPrincipal:=container.NewVBox(disponiblesScroll)
+	//zonaPrincipal=container.NewVBox(error ,disponiblesScroll)
+	zonaPrincipal=container.NewVBox(disponiblesScroll)
 
 	//Area de ingreso
+	ingresoDatos:=container.New(layout.NewVBoxLayout())
 	marca := widget.NewEntry()
 	marca.SetPlaceHolder("Ingrese la Marca")
 	modelo := widget.NewEntry()
@@ -116,21 +120,38 @@ func main() {
 	año.SetPlaceHolder("Ingrese el año")
 	color := widget.NewEntry()
 	color.SetPlaceHolder("Ingrese la color")
-	botonAñadir:=widget.NewButton("Comprar Coche",func (){
+	botonAñadir:=widget.NewButton("Comprar Coche",func (){})
+	botonRandom:=widget.NewButton("Comprar Coche al azar",func (){})
+	botonAñadir=widget.NewButton("Comprar Coche",func (){
 				añoInt,err:=strconv.Atoi(año.Text);
 				if err!=nil{return}
-				Comprar(añoInt,color.Text,marca.Text,modelo.Text,&disponibles,&comprados)
-				color.Text=""
-				año.Text=""
-				marca.Text=""
-				modelo.Text=""
+				err1:=Comprar(añoInt,color.Text,marca.Text,modelo.Text,&disponibles,&comprados)
+				if err1!=nil{
+					error.SetText(err1.Error())
+				}
+				marca = widget.NewEntry()
+				marca.SetPlaceHolder("Ingrese la Marca")
+				modelo = widget.NewEntry()
+				modelo.SetPlaceHolder("Ingrese el modelo")
+				año = widget.NewEntry()
+				año.SetPlaceHolder("Ingrese el año")
+				color = widget.NewEntry()
+				color.SetPlaceHolder("Ingrese la color")
+				ingresoDatos=container.New(layout.NewVBoxLayout(),
+					marca,modelo,color,año,botonAñadir,botonRandom)
+				compradosUi:=ElementosComprados(&comprados)
+				compradosScroll:=container.NewVScroll(compradosUi)
+				compradosScroll.SetMinSize(fyne.NewSize(500, 300))
+				zonaPrincipal.RemoveAll()
+				zonaPrincipal.AddObject(ingresoDatos)
+				zonaPrincipal.AddObject(compradosScroll)
 	})
-	botonRandom:=widget.NewButton("Comprar Coche al azar",func (){
+	botonRandom=widget.NewButton("Comprar Coche al azar",func (){
 		coche:=new(Coche)
 		coche.Random()
 		ComprarCoche(coche,&disponibles,&comprados)
 	})
-	ingresoDatos:=container.New(layout.NewVBoxLayout(),
+	ingresoDatos=container.New(layout.NewVBoxLayout(),
 			marca,modelo,color,año,botonAñadir,botonRandom)
 
 
@@ -156,6 +177,7 @@ func main() {
 			compradosUi:=ElementosComprados(&comprados)
 			compradosScroll:=container.NewVScroll(compradosUi)
 			compradosScroll.SetMinSize(fyne.NewSize(500, 300))
+			//zonaPrincipal.AddObject(error)
 			zonaPrincipal.AddObject(ingresoDatos)
 			zonaPrincipal.AddObject(compradosScroll)
 		}),
@@ -165,9 +187,10 @@ func main() {
 			nuevo:=ElementosDisponibles(&disponibles)
 			nuevoScroll:=container.NewVScroll(nuevo)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
+			//zonaPrincipal.AddObject(error)
 			zonaPrincipal.AddObject(nuevoScroll)
 		}) )
-	content:=container.NewVBox(hello,grid,zonaPrincipal)
+	content:=container.NewVBox(hello,error,grid,zonaPrincipal)
 	w.SetContent(content)
 
 	w.ShowAndRun()
