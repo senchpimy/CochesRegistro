@@ -1,21 +1,56 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	"strconv"
-	"fmt"
-	"fyne.io/fyne/v2/app"
+
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"fyne.io/fyne/v2/canvas"
 )
 
-func createButtonCallback(n int) func() {
+func createButtonCallback(n int, comprados* List,vendidos* List,disponibles* List) func() {
     return func() {
-        fmt.Println(n)
+	nodo:=comprados.Obtener(n)	
+	if nodo!=nil{
+		vendidos.InsertarNodo(nodo)
+		disponibles.InsertarNodo(new(Node))
+		fmt.Println(nodo)
+		fmt.Println(n)
+	}
     }
+}
+
+func ElementosVendidos(l* List) *fyne.Container {
+	p := l.Head.Next
+	compradosUi:=container.New(layout.NewVBoxLayout())
+	i:=0
+	zona:=container.New(layout.NewHBoxLayout())
+	lugaresVacios:=widget.NewLabel("Coches Vendidos")
+	zona.AddObject(lugaresVacios)
+	line := canvas.NewLine(color.White)
+	line.StrokeWidth = 10
+	compradosUi.AddObject(zona)
+	compradosUi.AddObject(line)
+	for p != nil {
+		zona:=container.New(layout.NewHBoxLayout())
+		line := canvas.NewLine(color.White)
+		line.StrokeWidth = 2
+		zona.AddObject(widget.NewLabel("Modelo: "+p.coche.modelo))
+		zona.AddObject(widget.NewLabel("Marca: "+p.coche.marca))
+		zona.AddObject(widget.NewLabel("Color: "+p.coche.color))
+		zona.AddObject(widget.NewLabel(fmt.Sprintf("Año: %d",p.coche.año)))
+		compradosUi.AddObject(zona)
+		compradosUi.AddObject(line)
+		p = p.Next
+		i+=1
+	}
+	lugaresVacios.SetText(fmt.Sprintf("Hay %d lugares vacios",i))
+	return compradosUi
 }
 
 func ElementosDisponibles(l* List) *fyne.Container {
@@ -44,7 +79,7 @@ func ElementosDisponibles(l* List) *fyne.Container {
 	return compradosUi
 }
 
-func ElementosComprados(l* List) *fyne.Container {
+func ElementosComprados(l* List,vendidos* List,disponibles* List) *fyne.Container {
 	p := l.Head.Next
 	compradosUi:=container.New(layout.NewVBoxLayout())
 	i:=0
@@ -62,7 +97,7 @@ func ElementosComprados(l* List) *fyne.Container {
 		zona.AddObject(widget.NewLabel("Marca: "+p.coche.marca))
 		zona.AddObject(widget.NewLabel("Color: "+p.coche.color))
 		zona.AddObject(widget.NewLabel(fmt.Sprintf("Año: %d",p.coche.año)))
-		zona.AddObject(widget.NewButton("Vender",func (){}))
+		zona.AddObject(widget.NewButton("Vender",createButtonCallback(i,l,vendidos,disponibles)))
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
 		compradosUi.AddObject(zona)
@@ -90,7 +125,7 @@ func main() {
 	Show(&vendidos)
 
 
-	for i:=0;i<2;i++{
+	for i:=0;i<100;i++{
 		cochevacio:=new(Coche)
 		cochevacio.año=i+1
 		disponibles.InsertarCoche(*cochevacio)
@@ -139,7 +174,7 @@ func main() {
 		color.SetPlaceHolder("Ingrese la color")
 		ingresoDatos=container.New(layout.NewVBoxLayout(),
 			marca,modelo,color,año,botonAñadir,botonRandom)
-		compradosUi:=ElementosComprados(&comprados)
+		compradosUi:=ElementosComprados(&comprados,&vendidos,&disponibles)
 		compradosScroll:=container.NewVScroll(compradosUi)
 		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
 		zonaPrincipal.RemoveAll()
@@ -163,7 +198,7 @@ func main() {
 		color.SetPlaceHolder("Ingrese la color")
 		ingresoDatos=container.New(layout.NewVBoxLayout(),
 			marca,modelo,color,año,botonAñadir,botonRandom)
-		compradosUi:=ElementosComprados(&comprados)
+		compradosUi:=ElementosComprados(&comprados,&vendidos,&disponibles)
 		compradosScroll:=container.NewVScroll(compradosUi)
 		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
 		zonaPrincipal.RemoveAll()
@@ -174,39 +209,29 @@ func main() {
 			marca,modelo,color,año,botonAñadir,botonRandom)
 
 
-	//Area de Comprados
-	//compradosUi:=container.New(layout.NewVBoxLayout())
-	//compradosScroll:=container.NewVScroll(compradosUi)
-	//compradosScroll.SetMinSize(fyne.NewSize(500, 500))
-
-	//for i:=0;i<100;i++{
-	//	zona:=container.New(layout.NewHBoxLayout())
-	//	zona.AddObject(widget.NewLabel("Papu"))
-	//	zona.AddObject(widget.NewButton(fmt.Sprintf("Hola %d", i), createButtonCallback(i)))
-	//	compradosUi.AddObject(zona)
-	//}
-	//compradosUi:=ElementosDisponibles(&disponibles)
-	//compradosScroll:=container.NewVScroll(compradosUi)
-	//compradosScroll.SetMinSize(fyne.NewSize(500, 500))
-	//zonaPrincipal:=container.NewVBox(compradosScroll)
+	//Area de Vendidos
 
 	grid := container.New(layout.NewGridLayout(3), 
 	widget.NewButton("Comprar", func() {
 			zonaPrincipal.RemoveAll()
-			compradosUi:=ElementosComprados(&comprados)
+			compradosUi:=ElementosComprados(&comprados,&vendidos,&disponibles)
 			compradosScroll:=container.NewVScroll(compradosUi)
 			compradosScroll.SetMinSize(fyne.NewSize(500, 300))
-			//zonaPrincipal.AddObject(error)
 			zonaPrincipal.AddObject(ingresoDatos)
 			zonaPrincipal.AddObject(compradosScroll)
 		}),
-		widget.NewButton("Vender", func() {zonaPrincipal.RemoveAll()}),
+		widget.NewButton("Vender", func() {
+			zonaPrincipal.RemoveAll()
+			nuevo:=ElementosVendidos(&vendidos)
+			nuevoScroll:=container.NewVScroll(nuevo)
+			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
+			zonaPrincipal.AddObject(nuevoScroll)
+		}),
 		widget.NewButton("Disponibles", func() {
 			zonaPrincipal.RemoveAll()
 			nuevo:=ElementosDisponibles(&disponibles)
 			nuevoScroll:=container.NewVScroll(nuevo)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
-			//zonaPrincipal.AddObject(error)
 			zonaPrincipal.AddObject(nuevoScroll)
 		}) )
 	content:=container.NewVBox(hello,error,grid,zonaPrincipal)
