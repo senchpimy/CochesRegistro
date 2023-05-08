@@ -19,8 +19,9 @@ func createButtonCallback(n int, comprados* List,vendidos* List,disponibles* Lis
 	if nodo!=nil{
 		vendidos.InsertarNodo(nodo)
 		disponibles.InsertarNodo(new(Node))
-		fmt.Println(nodo)
-		fmt.Println(n)
+		compradosUi.RemoveAll()
+		content:=ElementosComprados(comprados,vendidos,disponibles)
+		compradosUi.AddObject(content)
 	}
     }
 }
@@ -49,7 +50,7 @@ func ElementosVendidos(l* List) *fyne.Container {
 		p = p.Next
 		i+=1
 	}
-	lugaresVacios.SetText(fmt.Sprintf("Hay %d lugares vacios",i))
+	lugaresVacios.SetText(fmt.Sprintf("%d Coches han sido vendidos",i))
 	return compradosUi
 }
 
@@ -92,7 +93,6 @@ func ElementosComprados(l* List,vendidos* List,disponibles* List) *fyne.Containe
 	compradosUi.AddObject(line)
 	for p != nil {
 		zona:=container.New(layout.NewHBoxLayout())
-		//zona.AddObject(widget.NewLabel(fmt.Sprintf("Lugar #%d",i)))
 		zona.AddObject(widget.NewLabel("Modelo: "+p.coche.modelo))
 		zona.AddObject(widget.NewLabel("Marca: "+p.coche.marca))
 		zona.AddObject(widget.NewLabel("Color: "+p.coche.color))
@@ -109,6 +109,10 @@ func ElementosComprados(l* List,vendidos* List,disponibles* List) *fyne.Containe
 
 	return compradosUi
 }
+
+var zonaPrincipal = container.NewVBox()
+var ingresoDatos = container.NewVBox()
+var compradosUi = container.NewVBox()
 
 func main() {
 	disponiblesVacio:=new(Coche)
@@ -136,7 +140,6 @@ func main() {
 
 	hello := widget.NewLabel("Venta de Autos")
 	error:=widget.NewLabel("")
-	zonaPrincipal:=container.NewVBox()
 	
 	//Area de Disponibles
 	disponiblesUi:=ElementosDisponibles(&disponibles)
@@ -146,7 +149,6 @@ func main() {
 	zonaPrincipal=container.NewVBox(disponiblesScroll)
 
 	//Area de ingreso
-	ingresoDatos:=container.New(layout.NewVBoxLayout())
 	marca := widget.NewEntry()
 	marca.SetPlaceHolder("Ingrese la Marca")
 	modelo := widget.NewEntry()
@@ -172,9 +174,9 @@ func main() {
 		año.SetPlaceHolder("Ingrese el año")
 		color = widget.NewEntry()
 		color.SetPlaceHolder("Ingrese la color")
-		ingresoDatos=container.New(layout.NewVBoxLayout(),
+		ingresoDatos:=container.New(layout.NewVBoxLayout(),
 			marca,modelo,color,año,botonAñadir,botonRandom)
-		compradosUi:=ElementosComprados(&comprados,&vendidos,&disponibles)
+		compradosUi=ElementosComprados(&comprados,&vendidos,&disponibles)
 		compradosScroll:=container.NewVScroll(compradosUi)
 		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
 		zonaPrincipal.RemoveAll()
@@ -196,9 +198,9 @@ func main() {
 		año.SetPlaceHolder("Ingrese el año")
 		color = widget.NewEntry()
 		color.SetPlaceHolder("Ingrese la color")
-		ingresoDatos=container.New(layout.NewVBoxLayout(),
+		ingresoDatos:=container.New(layout.NewVBoxLayout(),
 			marca,modelo,color,año,botonAñadir,botonRandom)
-		compradosUi:=ElementosComprados(&comprados,&vendidos,&disponibles)
+		compradosUi=ElementosComprados(&comprados,&vendidos,&disponibles)
 		compradosScroll:=container.NewVScroll(compradosUi)
 		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
 		zonaPrincipal.RemoveAll()
@@ -213,25 +215,25 @@ func main() {
 
 	grid := container.New(layout.NewGridLayout(3), 
 	widget.NewButton("Comprar", func() {
-			zonaPrincipal.RemoveAll()
-			compradosUi:=ElementosComprados(&comprados,&vendidos,&disponibles)
+			compradosUi=ElementosComprados(&comprados,&vendidos,&disponibles)
 			compradosScroll:=container.NewVScroll(compradosUi)
 			compradosScroll.SetMinSize(fyne.NewSize(500, 300))
+			zonaPrincipal.RemoveAll()
 			zonaPrincipal.AddObject(ingresoDatos)
 			zonaPrincipal.AddObject(compradosScroll)
 		}),
 		widget.NewButton("Vender", func() {
-			zonaPrincipal.RemoveAll()
 			nuevo:=ElementosVendidos(&vendidos)
 			nuevoScroll:=container.NewVScroll(nuevo)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
+			zonaPrincipal.RemoveAll()
 			zonaPrincipal.AddObject(nuevoScroll)
 		}),
 		widget.NewButton("Disponibles", func() {
-			zonaPrincipal.RemoveAll()
 			nuevo:=ElementosDisponibles(&disponibles)
 			nuevoScroll:=container.NewVScroll(nuevo)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
+			zonaPrincipal.RemoveAll()
 			zonaPrincipal.AddObject(nuevoScroll)
 		}) )
 	content:=container.NewVBox(hello,error,grid,zonaPrincipal)
