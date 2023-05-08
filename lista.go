@@ -145,8 +145,8 @@ func not_main() {
 }
 
 func Comprar(año int, color string, marca string,
-modelo string, disponibles* List, comprados* List) error {
-	nuevo:=Coche{año:año,color:color,marca:marca,modelo:modelo}
+modelo string, tamaño string,disponibles* List, comprados* List) error {
+	nuevo:=Coche{año:año,color:color,marca:marca,modelo:modelo,tamaño:tamaño}
 	ultimo:=disponibles.Ultimo()
 	if ultimo==nil{
 		return errors.New("No hay espacio disponible")

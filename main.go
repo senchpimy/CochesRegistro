@@ -115,6 +115,7 @@ func ElementosComprados(l* List,vendidos* List,disponibles* List) *fyne.Containe
 var zonaPrincipal = container.NewVBox()
 var ingresoDatos = container.NewVBox()
 var compradosUi = container.NewVBox()
+var tamañoSeleccionado=""
 
 func main() {
 	disponiblesVacio:=new(Coche)
@@ -159,12 +160,13 @@ func main() {
 	año.SetPlaceHolder("Ingrese el año")
 	color := widget.NewEntry()
 	color.SetPlaceHolder("Ingrese la color")
+	tamaño:=widget.NewSelect([]string{"Grande","Mediano","Pequeño"},func(val string){tamañoSeleccionado=val})
 	botonAñadir:=widget.NewButton("Comprar Coche",func (){})
 	botonRandom:=widget.NewButton("Comprar Coche al azar",func (){})
 	botonAñadir=widget.NewButton("Comprar Coche",func (){
 		añoInt,err:=strconv.Atoi(año.Text);
 		if err!=nil{return}
-		err1:=Comprar(añoInt,color.Text,marca.Text,modelo.Text,&disponibles,&comprados)
+		err1:=Comprar(añoInt,color.Text,marca.Text,modelo.Text,tamañoSeleccionado,&disponibles,&comprados)
 		if err1!=nil{
 			error.SetText(err1.Error())
 		}
@@ -176,8 +178,9 @@ func main() {
 		año.SetPlaceHolder("Ingrese el año")
 		color = widget.NewEntry()
 		color.SetPlaceHolder("Ingrese la color")
+		tamaño=widget.NewSelect([]string{"Grande","Mediano","Pequeño"},func(val string){tamañoSeleccionado=val})
 		ingresoDatos:=container.New(layout.NewVBoxLayout(),
-			marca,modelo,color,año,botonAñadir,botonRandom)
+			marca,modelo,color,año,tamaño,botonAñadir,botonRandom)
 		compradosUi=ElementosComprados(&comprados,&vendidos,&disponibles)
 		compradosScroll:=container.NewVScroll(compradosUi)
 		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
@@ -200,8 +203,9 @@ func main() {
 		año.SetPlaceHolder("Ingrese el año")
 		color = widget.NewEntry()
 		color.SetPlaceHolder("Ingrese la color")
+		tamaño=widget.NewSelect([]string{"Grande","Mediano","Pequeño"},func(val string){tamañoSeleccionado=val})
 		ingresoDatos:=container.New(layout.NewVBoxLayout(),
-			marca,modelo,color,año,botonAñadir,botonRandom)
+			marca,modelo,color,año,tamaño,botonAñadir,botonRandom)
 		compradosUi=ElementosComprados(&comprados,&vendidos,&disponibles)
 		compradosScroll:=container.NewVScroll(compradosUi)
 		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
@@ -210,7 +214,7 @@ func main() {
 		zonaPrincipal.AddObject(compradosScroll)
 	})
 	ingresoDatos=container.New(layout.NewVBoxLayout(),
-			marca,modelo,color,año,botonAñadir,botonRandom)
+			marca,modelo,color,año,tamaño,botonAñadir,botonRandom)
 
 
 	//Area de Vendidos
