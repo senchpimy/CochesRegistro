@@ -102,7 +102,7 @@ func (c *Coche)Random(){
 	c.marca=RandStringRunes()
 	c.modelo=RandStringRunes()
 	tamaños:=[]string{"Grande", "Mediano", "Pequeño"}
-	c.tamaño=tamaños[rand.Intn(2)]
+	c.tamaño=tamaños[rand.Intn(3)]
 }
 
 func RandStringRunes() string {

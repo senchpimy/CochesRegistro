@@ -82,6 +82,73 @@ func ElementosDisponibles(l* List) *fyne.Container {
 	return compradosUi
 }
 
+func ElementosVista() *fyne.Container {
+	p := compradosGrandes.Head.Next
+	p2 := compradosMedianos.Head.Next
+	p3 := compradosChicos.Head.Next
+	compradosUi:=container.New(layout.NewVBoxLayout())
+
+	zona:=container.New(layout.NewHBoxLayout())
+	line := canvas.NewLine(color.White)
+	line.StrokeWidth = 10
+	compradosUi.AddObject(zona)
+	compradosUi.AddObject(line)
+	compradosUi.AddObject(widget.NewLabel("Grandes"))
+	for p != nil {
+		zona:=container.New(layout.NewHBoxLayout())
+		zona.AddObject(widget.NewLabel("Modelo: "+p.coche.modelo))
+		zona.AddObject(widget.NewLabel("Marca: "+p.coche.marca))
+		zona.AddObject(widget.NewLabel("Color: "+p.coche.color))
+		zona.AddObject(widget.NewLabel("Tamaño: "+p.coche.tamaño))
+		zona.AddObject(widget.NewLabel(fmt.Sprintf("Año: %d",p.coche.año)))
+		line := canvas.NewLine(color.White)
+		line.StrokeWidth = 2
+		compradosUi.AddObject(zona)
+		compradosUi.AddObject(line)
+		p = p.Next
+	}
+	compradosUiMed:=container.New(layout.NewVBoxLayout())
+	zonaMed:=container.New(layout.NewHBoxLayout())
+	compradosUiMed.AddObject(zonaMed)
+	compradosUiMed.AddObject(line)
+	compradosUiMed.AddObject(widget.NewLabel("Medianos"))
+	for p2 != nil {
+		zonaMed:=container.New(layout.NewHBoxLayout())
+		zonaMed.AddObject(widget.NewLabel("Modelo: "+p2.coche.modelo))
+		zonaMed.AddObject(widget.NewLabel("Marca: "+p2.coche.marca))
+		zonaMed.AddObject(widget.NewLabel("Color: "+p2.coche.color))
+		zonaMed.AddObject(widget.NewLabel("Tamaño: "+p2.coche.tamaño))
+		zonaMed.AddObject(widget.NewLabel(fmt.Sprintf("Año: %d",p2.coche.año)))
+		line := canvas.NewLine(color.White)
+		line.StrokeWidth = 2
+		compradosUiMed.AddObject(zonaMed)
+		compradosUiMed.AddObject(line)
+		p2 = p2.Next
+	}
+
+	compradosUiPeq:=container.New(layout.NewVBoxLayout())
+	zonaPeq:=container.New(layout.NewHBoxLayout())
+	compradosUiPeq.AddObject(zonaPeq)
+	compradosUiPeq.AddObject(line)
+	compradosUiPeq.AddObject(widget.NewLabel("Pequeños"))
+	for p3 != nil {
+		zonaPeq:=container.New(layout.NewHBoxLayout())
+		zonaPeq.AddObject(widget.NewLabel("Modelo: "+p3.coche.modelo))
+		zonaPeq.AddObject(widget.NewLabel("Marca: "+p3.coche.marca))
+		zonaPeq.AddObject(widget.NewLabel("Color: "+p3.coche.color))
+		zonaPeq.AddObject(widget.NewLabel("Tamaño: "+p3.coche.tamaño))
+		zonaPeq.AddObject(widget.NewLabel(fmt.Sprintf("Año: %d",p3.coche.año)))
+		line := canvas.NewLine(color.White)
+		line.StrokeWidth = 2
+		compradosUiPeq.AddObject(zonaPeq)
+		compradosUiPeq.AddObject(line)
+		p3 = p3.Next
+	}
+
+	grid := container.New(layout.NewGridLayout(3),compradosUi,compradosUiMed,compradosUiPeq) 
+	return grid
+}
+
 func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
 	p := compradosGrandes.Head.Next
 	p2 := compradosMedianos.Head.Next
@@ -252,11 +319,11 @@ func main() {
 		err1:=errors.New("")
 		if tamañoSel=="Grande"{
 			err1=ComprarCoche(coche,&disponibles,&compradosGrandes)
-		}else if tamañoSeleccionado=="Mediano"{ 
+		}else if tamañoSel=="Mediano"{ 
 			err1=ComprarCoche(coche,&disponibles,&compradosMedianos)
-		}else{
+		}else if tamañoSel=="Pequeño"{
 			err1=ComprarCoche(coche,&disponibles,&compradosChicos)
-		}
+		}else{fmt.Printf("Por algun motivo el valor no mathceo $%s$\n",tamañoSel)}
 
 		if err1!=nil{
 			errorWidget.SetText(err1.Error())
@@ -302,6 +369,11 @@ func main() {
 			zonaPrincipal.AddObject(nuevoScroll)
 		}),
 		widget.NewButton("Vista", func() {
+			nuevo:=ElementosVista()
+			nuevoScroll:=container.NewVScroll(nuevo)
+			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
+			zonaPrincipal.RemoveAll()
+			zonaPrincipal.AddObject(nuevoScroll)
 		}),
 		widget.NewButton("Disponibles", func() {
 			nuevo:=ElementosDisponibles(&disponibles)
