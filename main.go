@@ -56,9 +56,18 @@ func ElementosVendidos(l *List) *fyne.Container {
 		} else {
 			fmt.Println("No se encontro")
 		}
+
 		if !vendido {
 			errorWidget.SetText("Coche no Encontrado")
+		} else {
+			errorWidget.SetText("")
 		}
+
+		nuevo := ElementosVendidos(&vendidos)
+		nuevoScroll := container.NewVScroll(nuevo)
+		nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
+		zonaPrincipal.RemoveAll()
+		zonaPrincipal.AddObject(nuevoScroll)
 	})
 	compradosUi.AddObject(marca)
 	compradosUi.AddObject(modelo)
@@ -351,6 +360,7 @@ func main() {
 		zonaPrincipal.AddObject(ingresoDatos)
 		zonaPrincipal.AddObject(compradosScroll)
 	})
+
 	botonRandom = widget.NewButton("Comprar Coche al azar", func() {
 		coche := new(Coche)
 		coche.Random()
