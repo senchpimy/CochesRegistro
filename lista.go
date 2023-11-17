@@ -120,6 +120,7 @@ type Coche struct {
 	tamaño string
 }
 
+<<<<<<< HEAD
 func (c *Coche) Random() {
 	c.año = 1900 + rand.Int()%123
 	c.color = RandStringRunes()
@@ -127,6 +128,15 @@ func (c *Coche) Random() {
 	c.modelo = RandStringRunes()
 	tamaños := []string{"Grande", "Mediano", "Pequeño"}
 	c.tamaño = tamaños[rand.Intn(3)]
+=======
+func (c *Coche)Random(){
+	c.año=1900+rand.Int()%123
+	c.color=RandStringRunes()
+	c.marca=RandStringRunes()
+	c.modelo=RandStringRunes()
+	tamaños:=[]string{"Grande", "Mediano", "Pequeño"}
+	c.tamaño=tamaños[rand.Intn(3)]
+>>>>>>> ba0016e (update)
 }
 
 func RandStringRunes() string {
