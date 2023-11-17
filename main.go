@@ -15,6 +15,9 @@ import (
 )
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3f2ca0e (format)
 func createButtonCallback(n int, comprados *List, vendidos *List, disponibles *List) func() {
 	return func() {
 		nodo := comprados.Obtener(n)
@@ -23,6 +26,7 @@ func createButtonCallback(n int, comprados *List, vendidos *List, disponibles *L
 			disponibles.InsertarNodo(new(Node))
 			compradosUi.RemoveAll()
 			content := ElementosComprados(vendidos, disponibles)
+<<<<<<< HEAD
 			compradosUi.AddObject(content)
 		}
 =======
@@ -36,10 +40,15 @@ func createButtonCallback(n int, comprados* List,vendidos* List,disponibles* Lis
 		content:=ElementosComprados(vendidos,disponibles)
 		compradosUi.Add(content)
 >>>>>>> ba0016e (update)
+=======
+			compradosUi.Add(content)
+		}
+>>>>>>> 3f2ca0e (format)
 	}
 }
 
 func ElementosVendidos(l *List) *fyne.Container {
+<<<<<<< HEAD
 	compradosUi := container.New(layout.NewVBoxLayout())
 	marca := widget.NewEntry()
 	marca.SetPlaceHolder("Ingrese la Marca")
@@ -98,6 +107,13 @@ func ElementosVendidos(l *List) *fyne.Container {
 	i:=0
 	zona:=container.New(layout.NewHBoxLayout())
 	lugaresVacios:=widget.NewLabel("Coches Vendidos")
+=======
+	p := l.Head.Next
+	compradosUi := container.New(layout.NewVBoxLayout())
+	i := 0
+	zona := container.New(layout.NewHBoxLayout())
+	lugaresVacios := widget.NewLabel("Coches Vendidos")
+>>>>>>> 3f2ca0e (format)
 	zona.Add(lugaresVacios)
 >>>>>>> ba0016e (update)
 	line := canvas.NewLine(color.White)
@@ -108,6 +124,7 @@ func ElementosVendidos(l *List) *fyne.Container {
 		zona := container.New(layout.NewHBoxLayout())
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
+<<<<<<< HEAD
 <<<<<<< HEAD
 		zona.AddObject(widget.NewLabel("Modelo: " + p.coche.modelo))
 		zona.AddObject(widget.NewLabel("Marca: " + p.coche.marca))
@@ -122,6 +139,13 @@ func ElementosVendidos(l *List) *fyne.Container {
 		zona.Add(widget.NewLabel("Color: "+p.coche.color))
 		zona.Add(widget.NewLabel("Tamaño: "+p.coche.tamaño))
 		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d",p.coche.año)))
+=======
+		zona.Add(widget.NewLabel("Modelo: " + p.coche.modelo))
+		zona.Add(widget.NewLabel("Marca: " + p.coche.marca))
+		zona.Add(widget.NewLabel("Color: " + p.coche.color))
+		zona.Add(widget.NewLabel("Tamaño: " + p.coche.tamaño))
+		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p.coche.año)))
+>>>>>>> 3f2ca0e (format)
 		compradosUi.Add(zona)
 		compradosUi.Add(line)
 >>>>>>> ba0016e (update)
@@ -135,16 +159,22 @@ func ElementosVendidos(l *List) *fyne.Container {
 func ElementosDisponibles(l *List) *fyne.Container {
 	p := l.Head.Next
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3f2ca0e (format)
 	compradosUi := container.New(layout.NewVBoxLayout())
 	i := 0
 	zona := container.New(layout.NewHBoxLayout())
 	lugaresVacios := widget.NewLabel("")
+<<<<<<< HEAD
 	zona.AddObject(lugaresVacios)
 =======
 	compradosUi:=container.New(layout.NewVBoxLayout())
 	i:=0
 	zona:=container.New(layout.NewHBoxLayout())
 	lugaresVacios:=widget.NewLabel("")
+=======
+>>>>>>> 3f2ca0e (format)
 	zona.Add(lugaresVacios)
 >>>>>>> ba0016e (update)
 	line := canvas.NewLine(color.White)
@@ -153,11 +183,15 @@ func ElementosDisponibles(l *List) *fyne.Container {
 	compradosUi.Add(line)
 	for p != nil {
 <<<<<<< HEAD
+<<<<<<< HEAD
 		zona := container.New(layout.NewHBoxLayout())
 		//zona.AddObject(widget.NewLabel(fmt.Sprintf("Lugar #%d",i)))
 		zona.AddObject(widget.NewLabel("Vacio"))
 =======
 		zona:=container.New(layout.NewHBoxLayout())
+=======
+		zona := container.New(layout.NewHBoxLayout())
+>>>>>>> 3f2ca0e (format)
 		//zona.Add(widget.NewLabel(fmt.Sprintf("Lugar #%d",i)))
 		zona.Add(widget.NewLabel("Vacio"))
 >>>>>>> ba0016e (update)
@@ -253,39 +287,39 @@ func ElementosComprados(vendidos *List, disponibles *List) *fyne.Container {
 	p := compradosGrandes.Head.Next
 	p2 := compradosMedianos.Head.Next
 	p3 := compradosChicos.Head.Next
-	compradosUi:=container.New(layout.NewVBoxLayout())
+	compradosUi := container.New(layout.NewVBoxLayout())
 
-	zona:=container.New(layout.NewHBoxLayout())
+	zona := container.New(layout.NewHBoxLayout())
 	line := canvas.NewLine(color.White)
 	line.StrokeWidth = 10
 	compradosUi.Add(zona)
 	compradosUi.Add(line)
 	compradosUi.Add(widget.NewLabel("Grandes"))
 	for p != nil {
-		zona:=container.New(layout.NewHBoxLayout())
-		zona.Add(widget.NewLabel("Modelo: "+p.coche.modelo))
-		zona.Add(widget.NewLabel("Marca: "+p.coche.marca))
-		zona.Add(widget.NewLabel("Color: "+p.coche.color))
-		zona.Add(widget.NewLabel("Tamaño: "+p.coche.tamaño))
-		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d",p.coche.año)))
+		zona := container.New(layout.NewHBoxLayout())
+		zona.Add(widget.NewLabel("Modelo: " + p.coche.modelo))
+		zona.Add(widget.NewLabel("Marca: " + p.coche.marca))
+		zona.Add(widget.NewLabel("Color: " + p.coche.color))
+		zona.Add(widget.NewLabel("Tamaño: " + p.coche.tamaño))
+		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p.coche.año)))
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
 		compradosUi.Add(zona)
 		compradosUi.Add(line)
 		p = p.Next
 	}
-	compradosUiMed:=container.New(layout.NewVBoxLayout())
+	compradosUiMed := container.New(layout.NewVBoxLayout())
 	//zonaMed:=container.New(layout.NewHBoxLayout())
 	compradosUiMed.Add(zona)
 	compradosUiMed.Add(line)
 	compradosUiMed.Add(widget.NewLabel("Medianos"))
 	for p2 != nil {
-		zona:=container.New(layout.NewHBoxLayout())
-		zona.Add(widget.NewLabel("Modelo: "+p2.coche.modelo))
-		zona.Add(widget.NewLabel("Marca: "+p2.coche.marca))
-		zona.Add(widget.NewLabel("Color: "+p2.coche.color))
-		zona.Add(widget.NewLabel("Tamaño: "+p2.coche.tamaño))
-		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d",p2.coche.año)))
+		zona := container.New(layout.NewHBoxLayout())
+		zona.Add(widget.NewLabel("Modelo: " + p2.coche.modelo))
+		zona.Add(widget.NewLabel("Marca: " + p2.coche.marca))
+		zona.Add(widget.NewLabel("Color: " + p2.coche.color))
+		zona.Add(widget.NewLabel("Tamaño: " + p2.coche.tamaño))
+		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p2.coche.año)))
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
 		compradosUi.Add(zona)
@@ -294,12 +328,12 @@ func ElementosComprados(vendidos *List, disponibles *List) *fyne.Container {
 	}
 	compradosUi.Add(widget.NewLabel("Pequeños"))
 	for p3 != nil {
-		zona:=container.New(layout.NewHBoxLayout())
-		zona.Add(widget.NewLabel("Modelo: "+p3.coche.modelo))
-		zona.Add(widget.NewLabel("Marca: "+p3.coche.marca))
-		zona.Add(widget.NewLabel("Color: "+p3.coche.color))
-		zona.Add(widget.NewLabel("Tamaño: "+p3.coche.tamaño))
-		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d",p3.coche.año)))
+		zona := container.New(layout.NewHBoxLayout())
+		zona.Add(widget.NewLabel("Modelo: " + p3.coche.modelo))
+		zona.Add(widget.NewLabel("Marca: " + p3.coche.marca))
+		zona.Add(widget.NewLabel("Color: " + p3.coche.color))
+		zona.Add(widget.NewLabel("Tamaño: " + p3.coche.tamaño))
+		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p3.coche.año)))
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
 		compradosUi.Add(zona)
@@ -307,18 +341,18 @@ func ElementosComprados(vendidos *List, disponibles *List) *fyne.Container {
 		p3 = p3.Next
 	}
 
-	grid := container.New(layout.NewGridLayout(3)) 
+	grid := container.New(layout.NewGridLayout(3))
 	return grid
 }
 
-func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
+func ElementosComprados(vendidos *List, disponibles *List) *fyne.Container { // Interfaz encargada de Comprar coches
 	p := compradosGrandes.Head.Next
 	p2 := compradosMedianos.Head.Next
 	p3 := compradosChicos.Head.Next
-	compradosUi:=container.New(layout.NewVBoxLayout())
-	i:=0
-	zona:=container.New(layout.NewHBoxLayout())
-	lugaresVacios:=widget.NewLabel("")
+	compradosUi := container.New(layout.NewVBoxLayout())
+	i := 0
+	zona := container.New(layout.NewHBoxLayout())
+	lugaresVacios := widget.NewLabel("")
 	zona.Add(lugaresVacios)
 >>>>>>> ba0016e (update)
 	line := canvas.NewLine(color.White)
@@ -327,6 +361,7 @@ func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
 	compradosUi.Add(line)
 	compradosUi.Add(widget.NewLabel("Grandes"))
 	for p != nil {
+<<<<<<< HEAD
 <<<<<<< HEAD
 		zona := container.New(layout.NewHBoxLayout())
 		zona.AddObject(widget.NewLabel("Modelo: " + p.coche.modelo))
@@ -344,6 +379,15 @@ func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
 		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d",p.coche.año)))
 		zona.Add(widget.NewButton("Vender",createButtonCallback(i,&compradosGrandes,vendidos,disponibles)))
 >>>>>>> ba0016e (update)
+=======
+		zona := container.New(layout.NewHBoxLayout())
+		zona.Add(widget.NewLabel("Modelo: " + p.coche.modelo))
+		zona.Add(widget.NewLabel("Marca: " + p.coche.marca))
+		zona.Add(widget.NewLabel("Color: " + p.coche.color))
+		zona.Add(widget.NewLabel("Tamaño: " + p.coche.tamaño))
+		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p.coche.año)))
+		zona.Add(widget.NewButton("Vender", createButtonCallback(i, &compradosGrandes, vendidos, disponibles)))
+>>>>>>> 3f2ca0e (format)
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
 		compradosUi.Add(zona)
@@ -353,6 +397,7 @@ func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
 	}
 	compradosUi.Add(widget.NewLabel("Medianos"))
 	for p2 != nil {
+<<<<<<< HEAD
 <<<<<<< HEAD
 		zona := container.New(layout.NewHBoxLayout())
 		zona.AddObject(widget.NewLabel("Modelo: " + p2.coche.modelo))
@@ -370,6 +415,15 @@ func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
 		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d",p2.coche.año)))
 		zona.Add(widget.NewButton("Vender",createButtonCallback(i,&compradosMedianos,vendidos,disponibles)))
 >>>>>>> ba0016e (update)
+=======
+		zona := container.New(layout.NewHBoxLayout())
+		zona.Add(widget.NewLabel("Modelo: " + p2.coche.modelo))
+		zona.Add(widget.NewLabel("Marca: " + p2.coche.marca))
+		zona.Add(widget.NewLabel("Color: " + p2.coche.color))
+		zona.Add(widget.NewLabel("Tamaño: " + p2.coche.tamaño))
+		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p2.coche.año)))
+		zona.Add(widget.NewButton("Vender", createButtonCallback(i, &compradosMedianos, vendidos, disponibles)))
+>>>>>>> 3f2ca0e (format)
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
 		compradosUi.Add(zona)
@@ -379,6 +433,7 @@ func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
 	}
 	compradosUi.Add(widget.NewLabel("Pequeños"))
 	for p3 != nil {
+<<<<<<< HEAD
 <<<<<<< HEAD
 		zona := container.New(layout.NewHBoxLayout())
 		zona.AddObject(widget.NewLabel("Modelo: " + p3.coche.modelo))
@@ -396,6 +451,15 @@ func ElementosComprados(vendidos* List,disponibles* List) *fyne.Container {
 		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d",p3.coche.año)))
 		zona.Add(widget.NewButton("Vender",createButtonCallback(i,&compradosChicos,vendidos,disponibles)))
 >>>>>>> ba0016e (update)
+=======
+		zona := container.New(layout.NewHBoxLayout())
+		zona.Add(widget.NewLabel("Modelo: " + p3.coche.modelo))
+		zona.Add(widget.NewLabel("Marca: " + p3.coche.marca))
+		zona.Add(widget.NewLabel("Color: " + p3.coche.color))
+		zona.Add(widget.NewLabel("Tamaño: " + p3.coche.tamaño))
+		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p3.coche.año)))
+		zona.Add(widget.NewButton("Vender", createButtonCallback(i, &compradosChicos, vendidos, disponibles)))
+>>>>>>> 3f2ca0e (format)
 		line := canvas.NewLine(color.White)
 		line.StrokeWidth = 2
 		compradosUi.Add(zona)
@@ -426,6 +490,7 @@ var compradosChicos = List{&compradosChicosNodoVacio}
 
 var tamañoSeleccionado = ""
 var errorWidget = widget.NewLabel("")
+<<<<<<< HEAD
 
 var vendidosVacio = new(Coche)
 var vendidosNodoVacio = Node{*vendidosVacio, nil}
@@ -437,6 +502,18 @@ func main() {
 	disponiblesNodoVacio := Node{*disponiblesVacio, nil}
 
 	disponibles := List{&disponiblesNodoVacio}
+=======
+
+func main() {
+	disponiblesVacio := new(Coche)
+	vendidosVacio := new(Coche)
+
+	disponiblesNodoVacio := Node{*disponiblesVacio, nil}
+	vendidosNodoVacio := Node{*vendidosVacio, nil}
+
+	disponibles := List{&disponiblesNodoVacio}
+	vendidos := List{&vendidosNodoVacio}
+>>>>>>> 3f2ca0e (format)
 
 	for i := 0; i < 100; i++ {
 		cochevacio := new(Coche)
@@ -507,11 +584,17 @@ func main() {
 		zonaPrincipal.Add(ingresoDatos)
 		zonaPrincipal.Add(compradosScroll)
 	})
+<<<<<<< HEAD
 
 	botonRandom = widget.NewButton("Comprar Coche al azar", func() {
 		coche := new(Coche)
 		coche.Random()
 <<<<<<< HEAD
+=======
+	botonRandom = widget.NewButton("Comprar Coche al azar", func() {
+		coche := new(Coche)
+		coche.Random()
+>>>>>>> 3f2ca0e (format)
 		tamañoSel := coche.tamaño
 		err1 := errors.New("")
 		if tamañoSel == "Grande" {
@@ -523,6 +606,7 @@ func main() {
 		} else {
 			fmt.Printf("Por algun motivo el valor no mathceo $%s$\n", tamañoSel)
 		}
+<<<<<<< HEAD
 =======
 		tamañoSel:=coche.tamaño
 		err1:=errors.New("")
@@ -534,6 +618,8 @@ func main() {
 			err1=ComprarCoche(coche,&disponibles,&compradosChicos)
 		}else{fmt.Printf("Por algun motivo el valor no mathceo $%s$\n",tamañoSel)}
 >>>>>>> ba0016e (update)
+=======
+>>>>>>> 3f2ca0e (format)
 
 		if err1 != nil {
 			errorWidget.SetText(err1.Error())
@@ -579,6 +665,7 @@ func main() {
 		}),
 		widget.NewButton("Vista", func() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			nuevo := ElementosVista()
 			nuevoScroll := container.NewVScroll(nuevo)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
@@ -596,19 +683,28 @@ func main() {
 =======
 			nuevo:=ElementosVista()
 			nuevoScroll:=container.NewVScroll(nuevo)
+=======
+			nuevo := ElementosVista()
+			nuevoScroll := container.NewVScroll(nuevo)
+>>>>>>> 3f2ca0e (format)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
 			zonaPrincipal.RemoveAll()
 			zonaPrincipal.Add(nuevoScroll)
 		}),
 		widget.NewButton("Disponibles", func() {
-			nuevo:=ElementosDisponibles(&disponibles)
-			nuevoScroll:=container.NewVScroll(nuevo)
+			nuevo := ElementosDisponibles(&disponibles)
+			nuevoScroll := container.NewVScroll(nuevo)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))
 			zonaPrincipal.RemoveAll()
 			zonaPrincipal.Add(nuevoScroll)
+<<<<<<< HEAD
 		}) )
 	content:=container.NewVBox(hello,errorWidget,grid,zonaPrincipal)
 >>>>>>> ba0016e (update)
+=======
+		}))
+	content := container.NewVBox(hello, errorWidget, grid, zonaPrincipal)
+>>>>>>> 3f2ca0e (format)
 	w.SetContent(content)
 
 	w.ShowAndRun()

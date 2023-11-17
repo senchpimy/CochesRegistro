@@ -39,6 +39,7 @@ func (l *List) InsertarNodo(n *Node) {
 		p.Next = n
 	}
 }
+<<<<<<< HEAD
 
 func (l *List) EliminarCoche(coche Coche, vendidos *List) bool {
 	n := l.Head
@@ -64,6 +65,8 @@ func (l *List) EliminarCoche(coche Coche, vendidos *List) bool {
 	}
 }
 
+=======
+>>>>>>> 3f2ca0e (format)
 func (l *List) Ultimo() *Node {
 	curr := l.Head
 	if l.Head == nil {
@@ -121,6 +124,9 @@ type Coche struct {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3f2ca0e (format)
 func (c *Coche) Random() {
 	c.año = 1900 + rand.Int()%123
 	c.color = RandStringRunes()
@@ -128,6 +134,7 @@ func (c *Coche) Random() {
 	c.modelo = RandStringRunes()
 	tamaños := []string{"Grande", "Mediano", "Pequeño"}
 	c.tamaño = tamaños[rand.Intn(3)]
+<<<<<<< HEAD
 =======
 func (c *Coche)Random(){
 	c.año=1900+rand.Int()%123
@@ -137,6 +144,8 @@ func (c *Coche)Random(){
 	tamaños:=[]string{"Grande", "Mediano", "Pequeño"}
 	c.tamaño=tamaños[rand.Intn(3)]
 >>>>>>> ba0016e (update)
+=======
+>>>>>>> 3f2ca0e (format)
 }
 
 func RandStringRunes() string {
@@ -145,6 +154,30 @@ func RandStringRunes() string {
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+<<<<<<< HEAD
+=======
+	}
+	return string(b)
+}
+
+func not_main() {
+	disponiblesVacio := new(Coche)
+	compradosVacio := new(Coche)
+	vendidosVacio := new(Coche)
+
+	disponiblesNodoVacio := Node{*disponiblesVacio, nil}
+	compradosNodoVacio := Node{*compradosVacio, nil}
+	vendidosNodoVacio := Node{*vendidosVacio, nil}
+
+	disponibles := List{&disponiblesNodoVacio}
+	comprados := List{&compradosNodoVacio}
+	vendidos := List{&vendidosNodoVacio}
+
+	for i := 0; i < 6; i++ {
+		cochevacio := new(Coche)
+		cochevacio.año = i + 1
+		disponibles.InsertarCoche(*cochevacio)
+>>>>>>> 3f2ca0e (format)
 	}
 	return string(b)
 }
