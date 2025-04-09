@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"image/color"
 	"strconv"
@@ -206,6 +205,7 @@ func ElementosDisponibles(l *List) *fyne.Container {
 	return compradosUi
 }
 
+<<<<<<< HEAD
 func ElementosVista() *fyne.Container {
 <<<<<<< HEAD
 	p := compradosGrandes.Head.Next
@@ -284,65 +284,93 @@ func ElementosComprados(vendidos *List, disponibles *List) *fyne.Container {
 	lugaresVacios := widget.NewLabel("")
 	zona.AddObject(lugaresVacios)
 =======
+=======
+func ElementosVista() *fyne.Container { //Muestra los Elementos Y los ordena
+	g := container.New(layout.NewVBoxLayout())
+>>>>>>> 2b27c6c (cambios)
 	p := compradosGrandes.Head.Next
 	p2 := compradosMedianos.Head.Next
 	p3 := compradosChicos.Head.Next
-	compradosUi := container.New(layout.NewVBoxLayout())
-
-	zona := container.New(layout.NewHBoxLayout())
 	line := canvas.NewLine(color.White)
 	line.StrokeWidth = 10
-	compradosUi.Add(zona)
-	compradosUi.Add(line)
+
+	compradosUi := container.New(layout.NewVBoxLayout())
+	var ordenarGrand fyne.CanvasObject
+	ordenarGrand = widget.NewButton("Ordenar Por Quick Sort (Marca)", func() {
+		quickSort(compradosGrandes.Head.Next, nil)
+		compradosUi.RemoveAll()
+		compradosUi.Add(widget.NewLabel("Grandes"))
+		compradosUi.Add(line)
+		compradosUi.Add(ordenarGrand)
+		agregarLista(compradosGrandes.Head.Next, compradosUi)
+	})
 	compradosUi.Add(widget.NewLabel("Grandes"))
-	for p != nil {
-		zona := container.New(layout.NewHBoxLayout())
-		zona.Add(widget.NewLabel("Modelo: " + p.coche.modelo))
-		zona.Add(widget.NewLabel("Marca: " + p.coche.marca))
-		zona.Add(widget.NewLabel("Color: " + p.coche.color))
-		zona.Add(widget.NewLabel("Tamaño: " + p.coche.tamaño))
-		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p.coche.año)))
-		line := canvas.NewLine(color.White)
-		line.StrokeWidth = 2
-		compradosUi.Add(zona)
-		compradosUi.Add(line)
-		p = p.Next
-	}
+	compradosUi.Add(line)
+	compradosUi.Add(ordenarGrand)
+	agregarLista(p, compradosUi)
+
 	compradosUiMed := container.New(layout.NewVBoxLayout())
-	//zonaMed:=container.New(layout.NewHBoxLayout())
-	compradosUiMed.Add(zona)
-	compradosUiMed.Add(line)
+	var ordenarMed fyne.CanvasObject
+	ordenarMed = widget.NewButton("Ordenar Por Merge Sort (Marca)", func() {
+		compradosMedianos.Head.Next = mergeSort(compradosMedianos.Head.Next)
+		tmp := compradosMedianos.Head.Next
+		compradosUiMed.RemoveAll()
+		compradosUiMed.Add(widget.NewLabel("Medianos"))
+		compradosUiMed.Add(line)
+		compradosUiMed.Add(ordenarMed)
+		agregarLista(tmp, compradosUiMed)
+	})
 	compradosUiMed.Add(widget.NewLabel("Medianos"))
-	for p2 != nil {
-		zona := container.New(layout.NewHBoxLayout())
-		zona.Add(widget.NewLabel("Modelo: " + p2.coche.modelo))
-		zona.Add(widget.NewLabel("Marca: " + p2.coche.marca))
-		zona.Add(widget.NewLabel("Color: " + p2.coche.color))
-		zona.Add(widget.NewLabel("Tamaño: " + p2.coche.tamaño))
-		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p2.coche.año)))
-		line := canvas.NewLine(color.White)
-		line.StrokeWidth = 2
-		compradosUi.Add(zona)
-		compradosUi.Add(line)
-		p2 = p2.Next
-	}
-	compradosUi.Add(widget.NewLabel("Pequeños"))
-	for p3 != nil {
-		zona := container.New(layout.NewHBoxLayout())
-		zona.Add(widget.NewLabel("Modelo: " + p3.coche.modelo))
-		zona.Add(widget.NewLabel("Marca: " + p3.coche.marca))
-		zona.Add(widget.NewLabel("Color: " + p3.coche.color))
-		zona.Add(widget.NewLabel("Tamaño: " + p3.coche.tamaño))
-		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p3.coche.año)))
-		line := canvas.NewLine(color.White)
-		line.StrokeWidth = 2
-		compradosUi.Add(zona)
-		compradosUi.Add(line)
-		p3 = p3.Next
-	}
+	compradosUiMed.Add(line)
+	compradosUiMed.Add(ordenarMed)
+	agregarLista(p2, compradosUiMed)
+
+	compradosUiPeq := container.New(layout.NewVBoxLayout())
+	var ordenarPeq fyne.CanvasObject
+	ordenarPeq = widget.NewButton("Ordenar Por Burbuja (Marca)", func() {
+		compradosChicos.bubbleSort()
+		compradosUiPeq.RemoveAll()
+		compradosUiPeq.Add(widget.NewLabel("Pequeños"))
+		compradosUiPeq.Add(line)
+		compradosUiPeq.Add(ordenarPeq)
+		tmp_p := compradosChicos.Head.Next
+		agregarLista(tmp_p, compradosUiPeq)
+	})
+	compradosUiPeq.Add(widget.NewLabel("Pequeños"))
+	compradosUiPeq.Add(line)
+	compradosUiPeq.Add(ordenarPeq)
+	agregarLista(p3, compradosUiPeq)
 
 	grid := container.New(layout.NewGridLayout(3))
-	return grid
+	btn1 := widget.NewButton("Coches Grandes", func() {
+		l := len(g.Objects)
+		if l == 1 {
+			g.Add(compradosUi)
+		} else {
+			g.Objects[1] = compradosUi
+		}
+	})
+	btn2 := widget.NewButton("Coches Medianos", func() {
+		l := len(g.Objects)
+		if l == 1 {
+			g.Add(compradosUiMed)
+		} else {
+			g.Objects[1] = compradosUiMed
+		}
+	})
+	btn3 := widget.NewButton("Coches Pequeños", func() {
+		l := len(g.Objects)
+		if l == 1 {
+			g.Add(compradosUiPeq)
+		} else {
+			g.Objects[1] = compradosUiPeq
+		}
+	})
+	grid.Add(btn1)
+	grid.Add(btn2)
+	grid.Add(btn3)
+	g.Add(grid)
+	return g
 }
 
 func ElementosComprados(vendidos *List, disponibles *List) *fyne.Container { // Interfaz encargada de Comprar coches
@@ -549,8 +577,7 @@ func main() {
 		fmt.Println("Boton apretado")
 		añoInt, err := strconv.Atoi(año.Text)
 		if err != nil {
-			errorWidget.SetText(err.Error())
-			fmt.Println("Error")
+			errorWidget.SetText("No es un año valido")
 			return
 		}
 		err1 := err
@@ -566,25 +593,20 @@ func main() {
 		if err1 != nil {
 			errorWidget.SetText(err1.Error())
 		}
-		marca = widget.NewEntry()
-		marca.SetPlaceHolder("Ingrese la Marca")
-		modelo = widget.NewEntry()
-		modelo.SetPlaceHolder("Ingrese el modelo")
-		año = widget.NewEntry()
-		año.SetPlaceHolder("Ingrese el año")
-		color = widget.NewEntry()
-		color.SetPlaceHolder("Ingrese la color")
-		tamaño = widget.NewSelect([]string{"Grande", "Mediano", "Pequeño"}, func(val string) { tamañoSeleccionado = val })
-		ingresoDatos := container.New(layout.NewVBoxLayout(),
-			marca, modelo, color, año, tamaño, botonAñadir, botonRandom)
+		marca.SetText("")
+		modelo.SetText("")
+		año.SetText("")
+		color.SetText("")
+		tamaño.ClearSelected()
 		compradosUi = ElementosComprados(&vendidos, &disponibles)
 		compradosScroll := container.NewVScroll(compradosUi)
 		compradosScroll.SetMinSize(fyne.NewSize(500, 300))
-		zonaPrincipal.RemoveAll()
-		zonaPrincipal.Add(ingresoDatos)
-		zonaPrincipal.Add(compradosScroll)
+		zonaPrincipal.Objects[1] = compradosScroll
 	})
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2b27c6c (cambios)
 
 	botonRandom = widget.NewButton("Comprar Coche al azar", func() {
 		coche := new(Coche)
@@ -596,7 +618,7 @@ func main() {
 		coche.Random()
 >>>>>>> 3f2ca0e (format)
 		tamañoSel := coche.tamaño
-		err1 := errors.New("")
+		var err1 error
 		if tamañoSel == "Grande" {
 			err1 = ComprarCoche(coche, &disponibles, &compradosGrandes)
 		} else if tamañoSel == "Mediano" {
@@ -604,7 +626,7 @@ func main() {
 		} else if tamañoSel == "Pequeño" {
 			err1 = ComprarCoche(coche, &disponibles, &compradosChicos)
 		} else {
-			fmt.Printf("Por algun motivo el valor no mathceo $%s$\n", tamañoSel)
+			fmt.Printf("Por algun motivo el valor no acerto $%s$\n", tamañoSel)
 		}
 <<<<<<< HEAD
 =======
@@ -663,9 +685,13 @@ func main() {
 			zonaPrincipal.RemoveAll()
 			zonaPrincipal.Add(nuevoScroll)
 		}),
+<<<<<<< HEAD
 		widget.NewButton("Vista", func() {
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+		widget.NewButton("Ordenar", func() {
+>>>>>>> 2b27c6c (cambios)
 			nuevo := ElementosVista()
 			nuevoScroll := container.NewVScroll(nuevo)
 			nuevoScroll.SetMinSize(fyne.NewSize(500, 500))

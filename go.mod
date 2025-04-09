@@ -2,8 +2,9 @@ module cochesRegistro
 
 go 1.20
 
+require fyne.io/fyne/v2 v2.3.4
+
 require (
-	fyne.io/fyne/v2 v2.3.4 // indirect
 	fyne.io/systray v1.10.1-0.20230403195833-7dc3c09283d6 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fredbi/uri v0.1.0 // indirect
