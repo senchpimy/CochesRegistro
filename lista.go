@@ -3,14 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"fyne.io/fyne/v2/canvas"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/widget"
-	"image/color"
 	"math/rand"
-
-	"fyne.io/fyne/v2"
 )
 
 type Node struct {
@@ -46,7 +39,6 @@ func (l *List) InsertarNodo(n *Node) {
 		p.Next = n
 	}
 }
-<<<<<<< HEAD
 
 func (l *List) EliminarCoche(coche Coche, vendidos *List) bool {
 	n := l.Head
@@ -72,8 +64,6 @@ func (l *List) EliminarCoche(coche Coche, vendidos *List) bool {
 	}
 }
 
-=======
->>>>>>> 3f2ca0e (format)
 func (l *List) Ultimo() *Node {
 	curr := l.Head
 	if l.Head == nil {
@@ -130,10 +120,6 @@ type Coche struct {
 	tamaño string
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3f2ca0e (format)
 func (c *Coche) Random() {
 	c.año = 1900 + rand.Int()%123
 	c.color = RandStringRunes()
@@ -141,18 +127,6 @@ func (c *Coche) Random() {
 	c.modelo = RandStringRunes()
 	tamaños := []string{"Grande", "Mediano", "Pequeño"}
 	c.tamaño = tamaños[rand.Intn(3)]
-<<<<<<< HEAD
-=======
-func (c *Coche)Random(){
-	c.año=1900+rand.Int()%123
-	c.color=RandStringRunes()
-	c.marca=RandStringRunes()
-	c.modelo=RandStringRunes()
-	tamaños:=[]string{"Grande", "Mediano", "Pequeño"}
-	c.tamaño=tamaños[rand.Intn(3)]
->>>>>>> ba0016e (update)
-=======
->>>>>>> 3f2ca0e (format)
 }
 
 func RandStringRunes() string {
@@ -161,37 +135,10 @@ func RandStringRunes() string {
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = letterRunes[rand.Intn(len(letterRunes))]
-<<<<<<< HEAD
-=======
 	}
 	return string(b)
 }
 
-<<<<<<< HEAD
-func not_main() {
-	disponiblesVacio := new(Coche)
-	compradosVacio := new(Coche)
-	vendidosVacio := new(Coche)
-
-	disponiblesNodoVacio := Node{*disponiblesVacio, nil}
-	compradosNodoVacio := Node{*compradosVacio, nil}
-	vendidosNodoVacio := Node{*vendidosVacio, nil}
-
-	disponibles := List{&disponiblesNodoVacio}
-	comprados := List{&compradosNodoVacio}
-	vendidos := List{&vendidosNodoVacio}
-
-	for i := 0; i < 6; i++ {
-		cochevacio := new(Coche)
-		cochevacio.año = i + 1
-		disponibles.InsertarCoche(*cochevacio)
->>>>>>> 3f2ca0e (format)
-	}
-	return string(b)
-}
-
-=======
->>>>>>> 2b27c6c (cambios)
 func Comprar(año int, color string, marca string,
 	modelo string, tamaño string, disponibles *List, comprados *List) error {
 	nuevo := Coche{año: año, color: color, marca: marca, modelo: modelo, tamaño: tamaño}
@@ -212,119 +159,4 @@ func ComprarCoche(nuevo *Coche, disponibles *List, comprados *List) error {
 	ultimo.coche = *nuevo
 	comprados.InsertarNodo(ultimo)
 	return nil
-}
-
-func (l *List) bubbleSort() {
-	if l.Head == nil || l.Head.Next == nil {
-		return
-	}
-
-	swapped := true
-	for swapped {
-		swapped = false
-		current := l.Head
-		for current.Next != nil {
-			if current.coche.marca > current.Next.coche.marca {
-				current.coche, current.Next.coche = current.Next.coche, current.coche
-				swapped = true
-			}
-			current = current.Next
-		}
-	}
-}
-
-func swap(a, b *Node) {
-	a.coche, b.coche = b.coche, a.coche
-}
-
-func partition(low, high *Node) *Node {
-	pivot := high
-	i := low
-
-	for j := low; j != high; j = j.Next {
-		if j.coche.marca < pivot.coche.marca {
-			swap(i, j)
-			i = i.Next
-		}
-	}
-	swap(i, high)
-	return i
-}
-
-// Función principal de QuickSort
-func quickSort(low, high *Node) {
-	if low != nil && high != nil && low != high && low != high.Next {
-		pivot := partition(low, high)
-		quickSort(low, pivot)
-		quickSort(pivot.Next, high)
-	}
-}
-
-func agregarLista(p *Node, ui *fyne.Container) {
-	for p != nil {
-		zona := container.New(layout.NewHBoxLayout())
-		zona.Add(widget.NewLabel("Modelo: " + p.coche.modelo))
-		zona.Add(widget.NewLabel("Marca: " + p.coche.marca))
-		zona.Add(widget.NewLabel("Color: " + p.coche.color))
-		zona.Add(widget.NewLabel("Tamaño: " + p.coche.tamaño))
-		zona.Add(widget.NewLabel(fmt.Sprintf("Año: %d", p.coche.año)))
-		line := canvas.NewLine(color.White)
-		line.StrokeWidth = 2
-		ui.Add(zona)
-		ui.Add(line)
-		p = p.Next
-	}
-
-}
-
-// merge is a helper function to merge two sorted linked lists
-func merge(left, right *Node) *Node {
-	var result *Node
-
-	if left == nil {
-		return right
-	}
-	if right == nil {
-		return left
-	}
-
-	if left.coche.marca <= right.coche.marca {
-		result = left
-		result.Next = merge(left.Next, right)
-	} else {
-		result = right
-		result.Next = merge(left, right.Next)
-	}
-
-	return result
-}
-
-// mergeSort sorts the linked list using merge sort algorithm
-func mergeSort(head *Node) *Node {
-	if head == nil || head.Next == nil {
-		return head
-	}
-
-	// Split the list into two halves
-	var left, right *Node
-	slow, fast := head, head.Next
-
-	for fast != nil {
-		fast = fast.Next
-		if fast != nil {
-			slow = slow.Next
-			fast = fast.Next
-		}
-	}
-
-	left = head
-	right = slow.Next
-	slow.Next = nil
-
-	// Recursively sort the two halves
-	left = mergeSort(left)
-	right = mergeSort(right)
-
-	// Merge the sorted halves
-	return merge(left, right)
 }
